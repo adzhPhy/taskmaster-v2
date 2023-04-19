@@ -139,18 +139,19 @@ const Calendar = () => {
         {`${months[calendarMonth]} ${calendarYear}`}
         <ChevronLast size={28} onClick={handleNextMonth} />
       </div>
-      <div className="w-full grid grid-cols-7 grid-rows-5 place-items-end gap-1.5">
+      <div className="min-w-full grid grid-cols-7 grid-rows-5 place-items-center gap-1.5 border-2 border-red-800 p-4">
         {calendar.map((day: { day: number; dayOfWeek: string }) => (
           <div
             key={day.day}
             className={twMerge(
               handleCalendarInline(),
-              "flex flex-col justify-center items-center bg-cyan-400 border-2 text-black rounded-xl px-1"
+              "cal-card w-full flex flex-col justify-center items-center bg-cyan-300 border-2 text-black rounded-xl px-1"
             )}
           >
-            {`${day.dayOfWeek} ${day.day}`}
-            <div className="w-full text-wrap bg-slate-300 rounded-md mb-4">
-              <input type="text" placeholder="Write your task here" />
+            <span className="text-lg font-semibold">{`${day.dayOfWeek} ${day.day}`}</span>
+
+            <div className="bg-slate-300 rounded-md mb-2 px-2">
+              <div>Tasks here</div>
             </div>
           </div>
         ))}

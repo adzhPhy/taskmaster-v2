@@ -7,7 +7,6 @@
   padding: 0;
   box-sizing: border-box;
   height: 100%;
-  border: 1px solid white;
 }
 
 body {
@@ -15,6 +14,28 @@ body {
   background-color: black;
 }
 
-/* .calendar-grid:nth-child(1) {
-  grid-column-start: 6;
-} */
+.dashboard {
+  display: grid;
+  place-items: center;
+  align-items: start;
+  grid-template-columns: repeat(6, 1fr);
+  margin-inline: auto;
+}
+
+.dashboard-menu {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+}
+
+.dashboard-calendar {
+  grid-column-start: 2;
+  grid-column-end: 7;
+}
+
+.cal-card:hover {
+  transform: scale(1.5);
+  transition-delay: 150ms;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
