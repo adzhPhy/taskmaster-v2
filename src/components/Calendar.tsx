@@ -1,7 +1,9 @@
+"use client";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { ChevronFirst, ChevronLast } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 const Calendar = () => {
   function leapYear(year: number) {
@@ -10,7 +12,6 @@ const Calendar = () => {
 
   const currentYear = dayjs().year();
   const currentMonth = dayjs().month();
-  const isLeapYear = leapYear(currentYear);
 
   const months = [
     "Jan",
@@ -27,30 +28,34 @@ const Calendar = () => {
     "Dec",
   ];
 
-  const numberOfDaysInMonths = [
-    31,
-    isLeapYear ? 29 : 28,
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-  ];
+  const getNumberOfDaysInMonths = (month: number, year: number) => {
+    const isLeapYear = leapYear(year);
+    const numOfDays = [
+      31,
+      isLeapYear ? 29 : 28,
+      31,
+      30,
+      31,
+      30,
+      31,
+      31,
+      30,
+      31,
+      30,
+      31,
+    ];
+    return numOfDays[month];
+  };
 
   interface MonthDaysProps {
     day: number;
     dayOfWeek: string;
+    date: string;
   }
 
   // 0-11 format
   function getMonth(month: number, year: number) {
-    const isLeapYear = leapYear(year);
-    const numberOfDays = numberOfDaysInMonths[month];
+    const numberOfDays = getNumberOfDaysInMonths(month, year);
     const monthCalendar: MonthDaysProps[] = [];
     for (let i = 1; i < numberOfDays + 1; i++) {
       const dayString = `${month + 1}-${i}-${year}`;
@@ -58,6 +63,7 @@ const Calendar = () => {
       monthCalendar.push({
         day: i,
         dayOfWeek: day.$d.toString().substr(0, 3),
+        date: dayString,
       });
     }
     return monthCalendar;
@@ -140,21 +146,24 @@ const Calendar = () => {
         <ChevronLast size={28} onClick={handleNextMonth} />
       </div>
       <div className="min-w-full grid grid-cols-7 grid-rows-5 place-items-center gap-1.5 border-2 border-red-800 p-4">
-        {calendar.map((day: { day: number; dayOfWeek: string }) => (
-          <div
-            key={day.day}
-            className={twMerge(
-              handleCalendarInline(),
-              "cal-card w-full flex flex-col justify-center items-center bg-cyan-300 border-2 text-black rounded-xl px-1"
-            )}
-          >
-            <span className="text-lg font-semibold">{`${day.dayOfWeek} ${day.day}`}</span>
+        {calendar.map(
+          (day: { day: number; dayOfWeek: string; date: string }) => (
+            <Link
+              href={`/schedule/daily/${day.date}`}
+              key={day.day}
+              className={twMerge(
+                handleCalendarInline(),
+                "cal-card w-full flex flex-col justify-center items-center bg-cyan-300 border-2 text-black rounded-xl px-1 cursour-pointer"
+              )}
+            >
+              <span className="text-lg font-semibold">{`${day.dayOfWeek} ${day.day}`}</span>
 
-            <div className="bg-slate-300 rounded-md mb-2 px-2">
-              <div>Tasks here</div>
-            </div>
-          </div>
-        ))}
+              <div className="bg-slate-300 rounded-md mb-2 px-2">
+                <div>Tasks here</div>
+              </div>
+            </Link>
+          )
+        )}
       </div>
     </div>
   );

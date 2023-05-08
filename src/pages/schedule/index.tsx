@@ -16,7 +16,10 @@ export default function Home() {
         <div className="dashboard-menu border-2 border-green-600">
           Dashboard Menu Items
         </div>
-        Home
+        <div className="dashboard-calendar w-full min-w-fit border-2 border-blue-500">
+          <Calendar />
+          Hello World
+        </div>
       </div>
     </div>
   );
